@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Novelle Store - Divulgação para Canais do WhatsApp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+:root{
+  --orange:#ff7b00;
+  --orange-dark:#e86a00;
+  --orange-light:#ffa84d;
+  --dark:#0a0a0f;
+  --glass:rgba(255,255,255,0.08);
+  --glass-border:rgba(255,255,255,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:#fff;overflow-x:hidden}
+video.bg{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,rgba(0,0,0,0.85),rgba(255,123,0,0.2));z-index:-1}
+.glass{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.btn{padding:14px 28px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:#fff;font-weight:600;cursor:pointer;position:relative;overflow:hidden;transition:0.3s;box-shadow:0 0 20px rgba(255,123,0,0.4)}
+.btn:hover{transform:scale(1.05);box-shadow:0 0 40px rgba(255,123,0,0.8)}
+.btn:active{transform:scale(0.95)}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.5);transform:scale(0);animation:ripple 0.6s linear}
+@keyframes ripple{to{transform:scale(4);opacity:0}}
+.btn-outline{background:transparent;border:2px solid var(--orange)}
+.btn-outline:hover{background:var(--orange)}
+header{padding:20px 5%;display:flex;justify-content:space-between;align-items:center;position:fixed;top:0;width:100%;z-index:1000;transition:0.3s}
+header.scrolled{background:var(--glass);backdrop-filter:blur(20px)}
+.logo{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:800}
+.logo img{width:50px;height:50px;border-radius:50%;border:2px solid var(--orange);box-shadow:0 0 20px var(--orange)}
+.menu-btn{font-size:28px;cursor:pointer;background:var(--glass);padding:10px 14px;border-radius:12px}
+.side-menu{position:fixed;top:0;left:-300px;width:280px;height:100%;background:rgba(10,10,15,0.95);backdrop-filter:blur(20px);z-index:1001;transition:0.4s;padding:80px 20px;border-right:1px solid var(--glass-border)}
+.side-menu.active{left:0}
+.side-menu a{display:flex;align-items:center;gap:12px;padding:14px 18px;margin:8px 0;border-radius:12px;color:#fff;text-decoration:none;transition:0.3s}
+.side-menu a:hover{background:linear-gradient(90deg,var(--orange),transparent);transform:translateX(10px)}
+.close-btn{position:absolute;top:20px;right:20px;font-size:28px;cursor:pointer}
+.backdrop{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:1000;display:none}
+.backdrop.active{display:block}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 5% 80px}
+.hero-content h1{font-size:4rem;font-weight:800;background:linear-gradient(135deg,#fff,var(--orange-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px}
+.hero-content p{font-size:1.2rem;color:#ccc;margin-bottom:30px}
+.hero-btns{display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+.section{padding:100px 5%}
+.section-title{text-align:center;font-size:2.5rem;margin-bottom:60px;font-weight:700}
+.dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px}
+.card.glass{padding:30px;text-align:center;transition:0.4s}
+.card.glass:hover{transform:translateY(-10px);box-shadow:0 0 40px rgba(255,123,0,0.5)}
+.card .icon{font-size:3rem;margin-bottom:15px}
+.card .number{font-size:2.5rem;font-weight:800;color:var(--orange)}
+.products,.plans,.admins,.refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
+.product-card,.plan-card,.admin-card,.ref-card{padding:25px;text-align:center}
+.product-card img,.plan-card img,.admin-card img,.ref-card img{width:100%;height:200px;object-fit:cover;border-radius:15px;margin-bottom:15px}
+.plan-card{position:relative;overflow:hidden}
+.plan-card.premium{border:2px solid var(--orange);box-shadow:0 0 40px rgba(255,123,0,0.6)}
+.price{font-size:2rem;color:var(--orange);font-weight:800;margin:15px 0}
+.stars{color:var(--orange);font-size:1.2rem}
+.carousel{overflow:hidden;position:relative}
+.carousel-track{display:flex;transition:0.5s}
+.testimonial{min-width:100%;padding:40px;text-align:center}
+.faq-item{margin-bottom:15px}
+.faq-q{padding:20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+.faq-a{
+    max-height:0;
+    overflow:hidden;
+    padding:0 20px;
+    color:#ccc;
+    transition:max-height .4s ease, padding .4s ease;
+}
+
+.faq-a.open{
+    max-height:500px;
+    padding:20px;
+}
+.contact a{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none;color:#fff;justify-content:center}
+footer{padding:60px 5%;text-align:center;border-top:1px solid var(--glass-border)}
+.reveal{opacity:0;transform:translateY(50px);transition:1s}
+.reveal.active{opacity:1;transform:translateY(0)}
+.calc-box{padding:30px;margin-top:20px}
+.calc-box label{font-weight:600;font-size:1.1rem;display:block;margin-bottom:10px}
+.calc-box input[type=range]{width:100%;accent-color:var(--orange);cursor:pointer}
+.calc-box .valor{font-size:2rem;color:var(--orange);font-weight:800;margin-top:10px}
+@media(max-width:768px){
+  .hero-content h1{font-size:2.5rem}
+  .hero-btns{flex-direction:column}
+  
+  .side-menu a i{
+    width:22px;
+    text-align:center;
+    color:var(--orange);
+    font-size:18px;
+}
+
+</style>
+</head>
+<body>
+
+<video class="bg" autoplay muted loop>
+  <source src="LINK_DO_VIDEO" type="video/mp4">
+</video>
+<div class="overlay"></div>
+
+<header id="header">
+  <div class="logo">
+    <img src="https://files.catbox.moe/hj8m50.jpg" alt="Logo">
+    @NovelleStore
+  </div>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+</header>
+
+<div class="backdrop" onclick="toggleMenu()"></div>
+
+<nav class="side-menu" id="sideMenu">
+  <div class="close-btn" onclick="toggleMenu()">
+    <i class="fa-solid fa-xmark"></i>
+  </div>
+
+  <a href="#home"><i class="fa-solid fa-house"></i> Início</a>
+  <a href="#calculadora"><i class="fa-solid fa-calculator"></i> Calculadora</a>
+  <a href="#produtos"><i class="fa-solid fa-box-open"></i> Produtos</a>
+  <a href="#planos"><i class="fa-solid fa-wallet"></i> Planos</a>
+  <a href="#dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+  <a href="#admins"><i class="fa-solid fa-user-shield"></i> Administradores</a>
+  <a href="#avaliacoes"><i class="fa-solid fa-star"></i> Avaliações</a>
+  <a href="#refs"><i class="fa-solid fa-bullhorn"></i> Referências</a>
+  <a href="#faq"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+  <a href="#contato"><i class="fa-solid fa-phone"></i> Contato</a>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-content reveal">
+    <img src="https://files.catbox.moe/yze365.jpg" style="width:120px;height:120px;border-radius:50%;border:3px solid var(--orange);box-shadow:0 0 40px var(--orange);margin-bottom:20px">
+    <h1>Novelle Store</h1>
+    <p>Loja aberta com produtos de seguidores, reações, divulgações, e muito mais!</p>
+    <div class="hero-btns">
+      <button class="btn" onclick="scrollToSection('calculadora')">Calcular Preço</button>
+      <button class="btn btn-outline" onclick="scrollToSection('produtos')">Comprar Agora</button>
+      <button class="btn btn-outline" onclick="window.open('https://whatsapp.com/channel/0029Vb8EwPsKmCPSJyvXhD2e')">Canal Oficial</button>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="calculadora">
+  <h2 class="section-title reveal">🧮 Calculadora de Preços</h2>
+  <div class="plans">
+    <div class="plan-card glass reveal">
+      <img src="https://files.catbox.moe/yze365.jpg">
+      <h3>📢 Aluguel de Reações</h3>
+      <p>Até 1000 reações por dia</p>
+      <div class="calc-box">
+        <label>Quantos dias?</label>
+        <input type="range" id="diasReacao" min="1" max="90" value="7" oninput="calcularReacao()">
+        <p><span id="diasReacaoVal">7</span> Dias</p>
+        <div class="valor">Total: R$ <span id="totalReacao">1.40</span></div>
+        <small style="color:#ccc">R$0,20 por dia</small>
+      </div>
+      <button class="btn" onclick="comprarReacao()">Comprar Agora</button>
+    </div>
+
+    <div class="plan-card glass reveal">
+      <img src="https://files.catbox.moe/cny545.jpg">
+      <h3>👥 Seguidores</h3>
+      <p>Seguidores reais para seu canal</p>
+      <div class="calc-box">
+        <label>Quantos seguidores?</label>
+        <input type="range" id="qtdSeguidor" min="50" max="5000" step="50" value="500" oninput="calcularSeguidor()">
+        <p><span id="qtdSeguidorVal">500</span> Seguidores</p>
+        <div class="valor">Total: R$ <span id="totalSeguidor">25.00</span></div>
+        <small style="color:#ccc">R$0,05 por seguidor</small>
+      </div>
+      <button class="btn" onclick="comprarSeguidor()">Comprar Agora</button>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="banner">
+  <div class="glass" style="padding:60px;text-align:center;background:linear-gradient(135deg,rgba(255,123,0,0.3),rgba(0,0,0,0.3))">
+    <h2 style="font-size:2.5rem;margin-bottom:20px">🚀 Impulsione seu Canal Agora!</h2>
+    <p style="font-size:1.2rem;margin-bottom:30px">Alcance milhares de pessoas em minutos com nossas divulgações premium</p>
+    <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029Vb8EwPsKmCPSJyvXhD2e', '_blank')">
+  Entrar no Canal
+</button>
+</section>
+
+<div class="plan-card glass reveal">
+  <img src="https://i.ibb.co/JRkNK4RM/IMG-20260706-WA0167.jpg">
+  <h3>Plano Básico</h3>
+  <div class="price">R$ 3,90/mês</div>
+
+  <p>Divulgação mensal para até 15 grupos/canais de divulgação Ativos.</p>
+
+  <p style="color:#ffb366;font-size:0.9rem;margin:12px 0;">
+    ⚠️ Leia o FAQ antes de comprar.
+  </p>
+
+  <ul style="text-align:left;margin:15px 0">
+    <li>✓ Divulgação mensal</li>
+    <li>✓ Até 15 grupos/canais de divulgação</li>
+    <li>✓ Seguidores reais</li>
+    <li>✓ Suporte 24h</li>
+    <li>✓ Relatório de envio</li>
+  </ul>
+
+  <button class="btn" onclick="window.open('https://wa.me/5571987244913?text=Olá!%20Tenho%20interesse%20no%20Plano%20Básico.')">
+    Comprar
+  </button>
+</div>
+<div class="plan-card glass reveal">
+  <img src="https://i.ibb.co/yBPthMxx/IMG-20260706-WA0166.jpg">
+  <h3>Plano Médio</h3>
+  <div class="price">R$ 6,90/mês</div>
+
+  <p>Divulgação mensal para até 40 grupos/canais de divulgação Ativos.</p>
+
+  <p style="color:#ffb366;font-size:0.9rem;margin:12px 0;">
+    ⚠️ Leia o FAQ antes de comprar.
+  </p>
+
+  <ul style="text-align:left;margin:15px 0">
+    <li>✓ Divulgação mensal</li>
+    <li>✓ Até 40 grupos/canais de divulgação</li>
+    <li>✓ Seguidores reais</li>
+    <li>✓ Suporte prioritário</li>
+    <li>✓ Relatório de envio</li>
+  </ul>
+
+  <button class="btn" onclick="window.open('https://wa.me/5571987244913?text=Olá!%20Tenho%20interesse%20no%20Plano%20Médio.')">
+    Comprar
+  </button>
+</div>
+<div class="plan-card glass premium reveal">
+  <img src="https://i.ibb.co/WWG2V9S8/IMG-20260706-WA0164.jpg">
+  <h3>Plano Premium</h3>
+  <div class="price">Sob consulta</div>
+
+  <p>Divulgação personalizada até atingir a meta de seguidores combinada com o cliente.</p>
+
+  <p style="color:#ffb366;font-size:0.9rem;margin:12px 0;">
+    ⚠️ Leia o FAQ antes de contratar.
+  </p>
+
+  <ul style="text-align:left;margin:15px 0">
+    <li>✓ Divulgação até atingir a meta</li>
+    <li>✓ Meta definida antes da contratação</li>
+    <li>✓ Suporte prioritário</li>
+    <li>✓ Relatórios durante a divulgação</li>
+    <li>✓ Atendimento exclusivo</li>
+  </ul>
+
+  <button class="btn" onclick="window.open('https://wa.me/5571987244913?text=Olá!%20Tenho%20interesse%20no%20Plano%20Premium.')">
+    Solicitar orçamento
+  </button>
+</div>
+  </div>
+</section>
+
+<section class="section" id="produtos">
+  <h2 class="section-title reveal">📦 Produtos</h2>
+
+  <div class="products">
+    <div class="product-card glass reveal">
+      <img src="https://i.ibb.co/9HLCnL3j/IMG-20260706-WA0070.jpg">
+
+      <h3>Canal Pronto</h3>
+
+      <p>Canal com <b>302 seguidores via bot</b>, pronto para uso.</p>
+
+      <div class="price">R$ 12,90</div>
+
+      <ul style="text-align:left;margin:15px 0">
+        <li>✓ Canal pronto para uso</li>
+        <li>✓ 302 seguidores via bot</li>
+        <li>✓ Bônus: 1.000 reações por 7 dias</li>
+        <li>✓ Transferência após a compra</li>
+      </ul>
+
+      <button class="btn" onclick="window.open('https://wa.me/5521983176999?text=Olá!%20Tenho%20interesse%20no%20canal%20com%20302%20seguidores.')">
+        Comprar
+      </button>
+
+      <button class="btn btn-outline" onclick="alert('Canal com 302 seguidores via bot. Bônus de 1.000 reações por 7 dias incluso.')">
+        Ver Mais
+      </button>
+
+      <button class="btn btn-outline" onclick="window.open('https://wa.me/5521983176999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20o%20canal%20com%20302%20seguidores%20via%20bot.')">
+  WhatsApp
+      </button>
+    </div>
+  </div>
+<div class="product-card glass reveal">
+  <img src="https://i.ibb.co/t5D6Xjz/IMG-20260706-WA0204.jpg">
+
+  <h3>Canal Pronto</h3>
+
+  <p>Canal com <b>336 seguidores via bot</b>, pronto para uso.</p>
+
+  <div class="price">R$ 14,90</div>
+
+  <ul style="text-align:left;margin:15px 0">
+    <li>✓ Canal pronto para uso</li>
+    <li>✓ 336 seguidores via bot</li>
+    <li>✓ Bônus: 1.000 reações por 7 dias</li>
+    <li>✓ Transferência após a compra</li>
+  </ul>
+
+  <button class="btn" onclick="window.open('https://wa.me/5521983176999?text=Olá!%20Tenho%20interesse%20no%20canal%20com%20336%20seguidores%20via%20bot.')">
+    Comprar
+  </button>
+
+  <button class="btn btn-outline" onclick="alert('Canal com 336 seguidores via bot. Bônus de 1.000 reações por 7 dias incluso.')">
+    Ver Mais
+  </button>
+
+  <button class="btn btn-outline" onclick="window.open('https://wa.me/5521983176999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20o%20canal%20com%20336%20seguidores%20via%20bot.')">
+    WhatsApp
+  </button>
+</div>
+<div class="product-card glass reveal">
+  <img src="https://i.ibb.co/8h4QXVC/IMG-20260706-WA0183.jpg">
+
+  <h3>Design para Canal</h3>
+
+  <p>Criação de identidade visual personalizada para o seu canal.</p>
+
+  <div class="price">R$ 2,00 - R$ 5,00</div>
+
+  <ul style="text-align:left;margin:15px 0">
+    <li>✓ Design personalizado</li>
+    <li>✓ Valor conforme o estilo escolhido</li>
+    <li>✓ Atendimento rápido</li>
+    <li>✓ Alterações combinadas durante o pedido</li>
+  </ul>
+
+  <button class="btn" onclick="window.open('https://wa.me/5521983176999?text=Olá!%20Tenho%20interesse%20em%20um%20design%20para%20meu%20canal.')">
+    Comprar
+  </button>
+
+  <button class="btn btn-outline" onclick="alert('O valor do design varia entre R$ 2,00 e R$ 5,00, dependendo da complexidade e do estilo desejado.')">
+    Ver Mais
+  </button>
+
+  <button class="btn btn-outline" onclick="window.open('https://wa.me/5521983176999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20os%20designs%20para%20canal.')">
+    WhatsApp
+  </button>
+</div>
+<div class="product-card glass reveal">
+  <img src="https://i.ibb.co/5XfnSQtN/IMG-20260706-WA0202.jpg">
+
+  <h3>Canal Pronto</h3>
+
+  <p>Canal com <b>212 seguidores reais</b>, pronto para uso.</p>
+
+  <div class="price">R$ 9,00</div>
+
+  <ul style="text-align:left;margin:15px 0">
+    <li>✓ 212 seguidores reais</li>
+    <li>✓ Provas de autenticidade</li>
+    <li>✓ Canal pronto para uso</li>
+    <li>✓ Transferência após a compra</li>
+  </ul>
+
+  <button class="btn" onclick="window.open('https://wa.me/5521983176999?text=Olá!%20Tenho%20interesse%20no%20canal%20com%20212%20seguidores%20reais.')">
+    Comprar
+  </button>
+
+  <button class="btn btn-outline" onclick="alert('Canal com 212 seguidores reais. Provas de autenticidade disponíveis antes da compra.')">
+    Ver Mais
+  </button>
+
+  <button class="btn btn-outline" onclick="window.open('https://wa.me/5521983176999?text=Olá!%20Gostaria%20de%20ver%20as%20provas%20do%20canal%20com%20212%20seguidores%20reais.')">
+    WhatsApp
+  </button>
+</div>
+</section>
+
+<section class="section" id="admins">
+  <h2 class="section-title reveal">👑 Administradores</h2>
+  <div class="admins">
+    <div class="admin-card glass reveal">
+      <img src="https://i.ibb.co/KcMT1rz7/IMG-20260706-WA0162.jpg" style="width:120px;height:120px;border-radius:50%">
+      <<h3>𝐏𝕺𝐂𝕮𝐀 / 𝐃𝕬𝐍𝐓𝐄</h3>
+<p>Cofundadora</p>
+<p>Atendimento, vendas e suporte.</p>
+      <button class="btn" onclick="window.open('LINK')">WhatsApp</button>
+      <button class="btn btn-outline" onclick="window.open('LINK')">Perfil</button>
+    </div>
+    <div class="admin-card glass reveal">
+      <img src="https://i.ibb.co/S70DH35r/a2333a3287019240971e140e339325c9.jpg" style="width:120px;height:120px;border-radius:50%">
+      <h3>LucasNovaryn</h3>
+<p>Cofundador</p>
+<p>Desenvolvedor, divulgação e suporte.</p>
+      <button class="btn" onclick="window.open('LINK')">WhatsApp</button>
+      <button class="btn btn-outline" onclick="window.open('LINK')">Perfil</button>
+    </div>
+  </div>
+</section>
+
+<div class="ref-card glass reveal">
+  <img src="https://i.ibb.co/99M3MNwD/IMG-20260704-WA0063.jpg">
+  <h3>NovelleStore</h3>
+  <p>Canal oficial da loja.</p>
+  <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029Vb8EwPsKmCPSJyvXhD2e')">Entrar</button>
+</div>
+
+<div class="ref-card glass reveal">
+  <img src="https://i.ibb.co/SX9GfHqr/IMG-20260706-WA0214.jpg">
+  <h3>NovelleStore</h3>
+  <p>Canal de promoções e novidades.</p>
+  <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029Vb8EwPsKmCPSJyvXhD2e')">Entrar</button>
+</div>
+
+<div class="ref-card glass reveal">
+  <img src="https://i.ibb.co/207vrNjW/IMG-20260706-WA0216.jpg">
+  <h3>PoccoStore</h3>
+  <p>Canal do Pocco</p>
+  <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029Vb8GGMLKbYMHfcDQtw0U')">Entrar</button>
+</div>
+
+<div class="ref-card glass reveal">
+  <img src="https://i.ibb.co/99M3MNwD/IMG-20260704-WA0063.jpg">
+  <h3>LucasNovaryn</h3>
+  <p>Canal oficial de Lucas.</p>
+  <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbDIMhQ8KMqs5cOOTy1I')">Entrar</button>
+</div>
+
+<section class="section" id="faq">
+  <h2 class="section-title reveal">❓ FAQ</h2>
+  <div class="faq">
+
+    <div class="faq-item glass reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Quanto tempo demora para iniciar a divulgação? <span>+</span>
+      </div>
+      <div class="faq-a">
+        A divulgação normalmente é iniciada em até 24 horas após a confirmação do pagamento.
+      </div>
+    </div>
+
+    <div class="faq-item glass reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Como funcionam os planos? <span>+</span>
+      </div>
+      <div class="faq-a">
+        Os planos Básico e Médio funcionam como um serviço mensal de divulgação. Durante o período contratado, seu canal será divulgado conforme o plano escolhido.
+      </div>
+    </div>
+
+    <div class="faq-item glass reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Como funciona o Plano Premium? <span>+</span>
+      </div>
+      <div class="faq-a">
+        No Plano Premium, a divulgação continua até atingir a meta de seguidores combinada antes da contratação.
+      </div>
+    </div>
+
+    <div class="faq-item glass reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Os seguidores são permanentes? <span>+</span>
+      </div>
+      <div class="faq-a">
+  Os serviços via bot (seguidores e reações) são entregues conforme contratado. Já nas divulgações, os seguidores são pessoas reais e, por isso, podem deixar de seguir o canal a qualquer momento. Garantimos a entrega do serviço contratado, mas não podemos garantir que todos os seguidores obtidos por divulgação permaneçam no canal.
+      </div>
+    </div>
+
+    <div class="faq-item glass reveal">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Como recebo suporte? <span>+</span>
+      </div>
+      <div class="faq-a">
+        Basta entrar em contato pelo WhatsApp. Nossa equipe responderá o mais rápido possível.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+    
+ 
+
+<footer class="glass">
+  <img src="https://i.ibb.co/HL08ZCKX/IMG-20260706-WA0168.jpg" style="width:60px;height:60px;border-radius:50%;margin-bottom:15px">
+<p>Novelle Store - Tudo o que seu canal precisa em um só lugar.</p>
+<h2>Termos de Uso</h2>
+
+<p>Ao realizar uma compra na Novelle Store, o cliente declara estar ciente e de acordo com os termos abaixo:</p>
+
+<ul>
+  <li>Os serviços oferecidos são digitais e iniciam após a confirmação do pagamento.</li>
+  <li>Os prazos de entrega podem variar conforme o serviço adquirido.</li>
+  <li>Trabalhamos com seguidores e reações via bot e também com divulgação para alcançar pessoas reais. A descrição de cada serviço informa qual método é utilizado.</li>
+  <li>Seguidores obtidos por divulgação são pessoas reais e podem deixar de seguir o canal a qualquer momento. A permanência desses seguidores não pode ser garantida.</li>
+  <li>Seguidores e reações enviados via bot permanecem ativos conforme as características do serviço contratado.</li>
+  <li>Após a entrega do serviço, não realizamos reembolso, exceto quando não for possível concluir o pedido.</li>
+  <li>Ao comprar, o cliente confirma que leu a descrição do produto e concorda com estas condições.</li>
+</ul>
+
+<h2>Política de Privacidade</h2>
+
+<p>A Novelle Store respeita a privacidade de seus clientes.</p>
+
+<ul>
+  <li>Utilizamos apenas as informações necessárias para realizar o atendimento e concluir os pedidos.</li>
+  <li>Não vendemos, compartilhamos ou divulgamos dados pessoais para terceiros.</li>
+  <li>Conversas realizadas pelo WhatsApp são utilizadas somente para atendimento e suporte.</li>
+  <li>Os dados enviados pelo cliente são tratados com confidencialidade.</li>
+  <li>Ao utilizar nossos serviços, o cliente concorda com esta Política de Privacidade.</li>
+</ul>
+  <p>© 2026 Novelle Store. Todos os direitos reservados.</p>
+</footer>
+
+<script>
+// Menu
+function toggleMenu(){
+  document.getElementById('sideMenu').classList.toggle('active');
+  document.querySelector('.backdrop').classList.toggle('active');
+}
+
+// Scroll Header
+window.addEventListener('scroll',()=>{
+  document.getElementById('header').classList.toggle('scrolled',window.scrollY>50)
+})
+
+// Scroll Reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('active')})
+},{threshold:0.1})
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el))
+
+// Calculadora Reação
+function calcularReacao(){
+  let dias = document.getElementById('diasReacao').value;
+  let total = (dias * 0.20).toFixed(2);
+  document.getElementById('diasReacaoVal').innerText = dias;
+  document.getElementById('totalReacao').innerText = total.replace('.',',');
+}
+calcularReacao();
+
+// Calculadora Seguidor
+function calcularSeguidor(){
+  let qtd = parseInt(document.getElementById('qtdSeguidor').value);
+  let total = 0;
+
+  if(qtd == 50) total = 1.50;
+  else if(qtd == 100) total = 3.00;
+  else if(qtd == 200) total = 4.50;
+  else if(qtd == 300) total = 5.70;
+  else if(qtd == 500) total = 7.30;
+  else if(qtd == 800) total = 9.80;
+  else if(qtd == 1000) total = 13.90;
+  else total = "Consulte";
+
+  document.getElementById("qtdSeguidorVal").innerText = qtd;
+  document.getElementById("totalSeguidor").innerText =
+    typeof total === "number" ? total.toFixed(2).replace(".", ",") : total;
+}
+
+function comprarSeguidor(){
+  let qtd = document.getElementById('qtdSeguidor').value;
+  let total = (qtd * 0.05).toFixed(2);
+  alert(`Você selecionou ${qtd} seguidores. Total: R$ ${total.replace('.',',')}`);
+}
+
+// Carrossel
+let slide=0;
+setInterval(()=>{
+  slide = (slide+1)%10;
+  document.getElementById('carousel').style.transform = `translateX(-${slide*100}%)`
+},4000)
+
+// FAQ
+function toggleFaq(el){
+  const a = el.nextElementSibling;
+  a.classList.toggle('open');
+  el.querySelector('span').innerText = a.classList.contains('open') ? '-' : '+';
+}
+
+// Ripple
+document.querySelectorAll('.btn').forEach(btn=>{
+  btn.addEventListener('click',function(e){
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    const rect = this.getBoundingClientRect();
+    ripple.style.left = e.clientX - rect.left + 'px';
+    ripple.style.top = e.clientY - rect.top + 'px';
+    this.appendChild(ripple);
+    setTimeout(()=>ripple.remove(),600)
+  })
+})
+
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth'})
+}
+</script>
+</body>
+</html>
