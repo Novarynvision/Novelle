@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZionSee Store - Decorações 💖</title>
+
+<!-- FONTES MAIS LEGAIS -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+/* ===== PALETA ===== */
+:root{
+  --rosa: #FF4F7A;
+  --amarelo: #FFE75F;
+  --bege: #FFF8F0;
+  --azul: #8ECAE6;
+  --lilas: #CDB4DB;
+  --preto: #333;
+  --branco: #FFFFFF;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Nunito', sans-serif;
+  background:var(--bege);
+  color:var(--preto);
+}
+h1,h2,h3{font-family:'Dancing Script', cursive; font-weight:700}
+p, .btn, nav a{font-family:'Quicksand', sans-serif}
+
+/* ===== HEADER ===== */
+header{
+  position:fixed; top:0; width:100%; z-index:1000;
+  background:rgba(255,248,240,0.9);
+  backdrop-filter:blur(15px);
+  border-bottom:3px dashed var(--amarelo);
+}
+.nav{
+  max-width:1200px; margin:auto; padding:15px 20px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.logo{font-size:2.2rem; color:var(--rosa)}
+.logo i{color:var(--amarelo); margin-right:5px}
+nav ul{display:flex; gap:20px; list-style:none}
+nav a{text-decoration:none; color:var(--preto); font-weight:600; font-size:1.05rem; display:flex; align-items:center; gap:6px; transition:0.3s}
+nav a:hover{color:var(--rosa); transform:translateY(-2px)}
+.menu-btn{display:none; font-size:1.5rem; cursor:pointer; color:var(--rosa)}
+
+@media(max-width:900px){
+  nav ul{
+    position:fixed; top:70px; right:-100%; flex-direction:column;
+    background:var(--branco); width:75%; height:100vh; padding:40px 20px;
+    transition:0.4s; border-left:4px solid var(--amarelo)
+  }
+  nav ul.active{right:0}
+  .menu-btn{display:block}
+}
+
+/* ===== HERO COM WALLPAPER ===== */
+.hero{
+  padding:160px 20px 120px; text-align:center;
+  background: linear-gradient(rgba(255,79,122,0.5), rgba(141,202,230,0.5)), url('https://i.ibb.co/RTDhnLMP/IMG-20260720-WA0008.jpg') center/cover fixed; /* SUA WALLPAPER */
+  color:var(--branco);
+}
+.hero h1{font-size:4rem; color:var(--branco); margin-bottom:10px; text-shadow:2px 2px 10px rgba(0,0,0,0.3)}
+.hero h1 span{color:var(--amarelo)}
+.hero p{font-size:1.3rem; margin-bottom:25px; font-weight:600; text-shadow:1px 1px 5px rgba(0,0,0,0.3)}
+.btn{
+  padding:14px 26px; border:none; border-radius:50px; font-weight:700; font-size:1rem;
+  cursor:pointer; transition:0.3s; margin:8px; text-decoration:none; display:inline-block;
+  box-shadow:0 4px 0 rgba(0,0,0,0.15)
+}
+.btn-primary{background:var(--amarelo); color:var(--preto)}
+.btn-primary:hover{background:#ffd700; transform:translateY(-4px)}
+.btn-secondary{background:var(--branco); color:var(--rosa)}
+.btn-secondary:hover{background:var(--bege); transform:translateY(-4px)}
+
+/* ===== SECTIONS ===== */
+section{padding:80px 20px; max-width:1200px; margin:auto}
+.section-title{text-align:center; font-size:2.8rem; margin-bottom:40px; color:var(--rosa)}
+.section-title i{color:var(--amarelo); margin-right:10px}
+
+/* ===== CARDS COM FOTO ===== */
+.grid{display:grid; gap:25px}
+.grid-3{grid-template-columns:repeat(auto-fit, minmax(270px, 1fr))}
+.card{
+  background:var(--branco); border-radius:25px; overflow:hidden;
+  box-shadow:0 8px 0 var(--azul);
+  transition:0.3s; border:2px solid var(--azul); text-align:center;
+}
+.card:hover{transform:translateY(-8px); box-shadow:0 12px 0 var(--rosa)}
+.card img{
+  width:100%; height:180px; object-fit:cover; border-bottom:3px dashed var(--amarelo)
+}
+.card-content{padding:18px}
+.card h3{color:var(--rosa); margin-bottom:8px; font-size:1.7rem}
+.price{font-size:1.4rem; font-weight:700; color:var(--lilas); margin:10px 0}
+.tag{display:inline-block; background:var(--amarelo); padding:4px 10px; border-radius:20px; font-size:0.8rem; font-weight:700; margin-bottom:8px}
+
+/* ===== TABELA DE PREÇOS ===== */
+.tabela{
+  background:var(--branco); border-radius:20px; padding:30px; border:3px solid var(--lilas);
+}
+.tabela-item{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 0; border-bottom:1px dashed var(--azul); font-size:1.1rem
+}
+.tabela-item:last-child{border:none}
+.tabela-preco{font-weight:700; color:var(--rosa); font-size:1.2rem}
+.obs{text-align:center; margin-top:15px; font-weight:600; color:#666}
+
+/* ===== SOBRE ===== */
+.sobre{
+  background:linear-gradient(135deg, var(--lilas), var(--rosa)); 
+  border-radius:30px; padding:50px; text-align:center; color:var(--branco);
+}
+
+/* ===== FOOTER ===== */
+footer{
+  background:var(--rosa); color:var(--branco); padding:50px 20px; text-align:center; border-top:5px dashed var(--amarelo);
+}
+.socials a{color:var(--branco); font-size:1.8rem; margin:0 12px; transition:0.3s}
+.socials a:hover{color:var(--amarelo); transform:scale(1.2)}
+
+.reveal{opacity:0; transform:translateY(30px); transition:0.8s}
+.reveal.active{opacity:1; transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="nav">
+    <div class="logo"><i class="fa-solid fa-sparkles"></i>Zion<span>See</span> Store</div>
+    <nav>
+      <ul id="menu">
+        <li><a href="#inicio"><i class="fa-solid fa-house"></i>Início</a></li>
+        <li><a href="#tabela"><i class="fa-solid fa-list"></i>Tabela</a></li>
+        <li><a href="#combos"><i class="fa-solid fa-gift"></i>Combos</a></li>
+        <li><a href="#sobre"><i class="fa-solid fa-heart"></i>Sobre</a></li>
+        <li><a href="#contato"><i class="fa-solid fa-envelope"></i>Contato</a></li>
+      </ul>
+    </nav>
+    <i class="fa-solid fa-bars menu-btn" onclick="toggleMenu()"></i>
+  </div>
+</header>
+
+<!-- ===== HERO COM WALLPAPER ===== -->
+<section class="hero" id="inicio">
+  <div class="hero-content">
+    <h1>Zion<span>See</span> Store 💖</h1>
+    <p>Decorações fofas pra deixar seu perfil único! Tudo a partir de R$0,20</p>
+    <a href="#tabela" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Ver Tabela</a>
+    <a href="#combos" class="btn btn-secondary"><i class="fa-solid fa-bag-shopping"></i> Ver Combos</a>
+  </div>
+</section>
+
+<!-- ===== TABELA DE PREÇOS ===== -->
+<section id="tabela" class="reveal">
+  <h2 class="section-title"><i class="fa-solid fa-list"></i> Tabela de Decorações</h2>
+  <div class="grid grid-3">
+    <!-- CARD 1 -->
+    <div class="card">
+      <img src="https://i.ibb.co/JTmrZLY/IMG-20260720-WA0033.jpg" alt="Bio"> <!-- COLA FOTO DA BIO AQUI -->
+      <div class="card-content">
+        <h3>Bio</h3>
+        <div class="tabela">
+          <div class="tabela-item"><span>Bio Pequena</span> <span class="tabela-preco">R$ 0,50</span></div>
+          <div class="tabela-item"><span>Bio Grande</span> <span class="tabela-preco">R$ 0,80</span></div>
+        </div>
+        <button class="btn btn-primary" onclick="whatsapp('Bio')">Pedir no WhatsApp</button>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card">
+      <img src="https://i.ibb.co/tpNYgy5P/IMG-20260720-WA0025.jpg" alt="Nome"> <!-- COLA FOTO DO NOME AQUI -->
+      <div class="card-content">
+        <h3>Nome</h3>
+        <div class="tabela">
+          <div class="tabela-item"><span>Com decoração</span> <span class="tabela-preco">R$ 0,90</span></div>
+          <div class="tabela-item"><span>Só letra decorada</span> <span class="tabela-preco">R$ 0,20</span></div>
+        </div>
+        <button class="btn btn-primary" onclick="whatsapp('Nome')">Pedir no WhatsApp</button>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card">
+      <img src="https://i.ibb.co/ymk2LSt6/IMG-20260720-WA0002.jpg" alt="Banner"> <!-- COLA FOTO DO BANNER AQUI -->
+      <div class="card-content">
+        <h3>Banner</h3>
+        <div class="tabela">
+          <div class="tabela-item"><span>Design personalizado</span> <span class="tabela-preco">R$ 1,00</span></div>
+        </div>
+        <span class="obs">Exemplos no PV 💖</span>
+        <button class="btn btn-primary" onclick="whatsapp('Banner R$1')">Pedir no WhatsApp</button>
+      </div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="card">
+      <img src="https://i.ibb.co/ynHkz9RF/IMG-20260720-WA0028.jpg" alt="Icon"> <!-- COLA FOTO DO ICON AQUI -->
+      <div class="card-content">
+        <h3>Icon</h3>
+        <div class="tabela">
+          <div class="tabela-item"><span>Icon personalizado</span> <span class="tabela-preco">R$ 1,30</span></div>
+        </div>
+        <button class="btn btn-primary" onclick="whatsapp('Icon R$1,30')">Pedir no WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COMBOS ===== -->
+<section id="combos" class="reveal">
+  <h2 class="section-title"><i class="fa-solid fa-gift"></i> Combos Promocionais</h2>
+  <div class="grid grid-3">
+    <div class="card">
+      <img src="https://i.ibb.co/TxJRjRrf/IMG-20260720-WA0021.jpg" alt="Combo 1">
+      <div class="card-content">
+        <span class="tag">Econômico</span>
+        <h3>Combo 1</h3>
+        <p>2 Icons + 1 Banner</p>
+        <div class="price">R$ 3,00</div>
+        <button class="btn btn-secondary" onclick="whatsapp('Combo 1 R$3')">Quero!</button>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://i.ibb.co/WXmJgVd/IMG-20260720-WA0015.jpg" alt="Combo 2">
+      <div class="card-content">
+        <h3>Combo 2</h3>
+        <p>2 Banners + 1 Icon</p>
+        <div class="price">R$ 3,50</div>
+        <button class="btn btn-secondary" onclick="whatsapp('Combo 2 R$3,50')">Quero!</button>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://i.ibb.co/J6wjh6c/IMG-20260720-WA0024.jpg" alt="Combo 3">
+      <div class="card-content">
+        <h3>Combo 3</h3>
+        <p>Somente 3 Icons</p>
+        <div class="price">R$ 3,80</div>
+        <button class="btn btn-secondary" onclick="whatsapp('Combo 3 R$3,80')">Quero!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Combo grande embaixo, ocupando linha inteira -->
+  <div class="card combo-grande">
+    <img src="https://i.ibb.co/V007w3fP/IMG-20260720-WA0007.jpg" alt="Combo Decorações">
+    <div class="card-content">
+      <span class="tag">Mais Completo</span>
+      <h3>Combo Decorações</h3>
+      <p>Bio + Nome + Decorações + Placas + Balões de fala + Adicionais no PV</p>
+      <div class="price">R$ 6,00</div>
+      <button class="btn btn-primary" onclick="whatsapp('Combo Decorações R$6')">Quero esse!</button>
+    </div>
+  </div>
+
+  <p class="obs" style="margin-top:30px">💬 Para mais informações no privado. <b>Desconto para compras acima de R$10,00</b></p>
+</section>
+
+<!-- ===== SOBRE ===== -->
+<section id="sobre" class="reveal">
+  <div class="sobre">
+    <h2 class="section-title" style="color:var(--branco)">Sobre a ZionSee</h2>
+    <p style="font-size:1.2rem; max-width:800px; margin:auto; font-weight:500">
+      Oi! Eu faço decorações fofas e criativas pra deixar seu perfil com a sua cara  
+      Preço super amigo e entrega rápida! Me chama no WhatsApp pra pedir a sua.
+    </p>
+  </div>
+</section>
+
+<!-- ===== CONTATO ===== -->
+<section id="contato" class="reveal">
+  <h2 class="section-title"><i class="fa-solid fa-envelope"></i> Fale Comigo</h2>
+  <div style="text-align:center">
+    <button class="btn btn-primary" style="font-size:1.2rem" onclick="whatsapp('Olá! Quero fazer um pedido 💖')">
+      <i class="fa-brands fa-whatsapp"></i> Pedir no WhatsApp
+    </button>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<!-- ===== FOOTER ===== -->
+<footer>
+  <h2 class="logo" style="color:var(--branco)"><i class="fa-solid fa-sparkles"></i>Zion<span style="color:var(--amarelo)">See</span> Store</h2>
+  <div class="socials" style="margin:20px 0">
+    <!-- TIREI INSTAGRAM E COLOQUEI PINT E TIKTOK -->
+    <a href="https://br.pinterest.com/ZionSeeHeard" target="_blank" title="@ZionSeeHeard">
+      <i class="fa-brands fa-pinterest"></i>
+    </a>
+    <a href="https://www.tiktok.com/@lucasofchomeoffice" target="_blank" title="@lucasofchomeoffice">
+      <i class="fa-brands fa-tiktok"></i>
+    </a>
+    <a href="https://wa.me/556493053464" target="_blank" title="WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+  <p>Feito com <i class="fa-solid fa-heart" style="color:var(--amarelo)"></i> por ZionSee Store © 2026</p>
+</footer>
+
+<script>
+// ===== EDITAR AQUI =====
+const WHATSAPP_NUMBER = "556493053464"; // <-- COLOQUE SEU NUMERO COM DDD
+
+function toggleMenu(){
+  document.getElementById('menu').classList.toggle('active');
+}
+function whatsapp(produto){
+  const msg = encodeURIComponent(`Oi Zion! 💖 Quero pedir: ${produto}`);
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+}
+const reveals = document.querySelectorAll('.reveal');
+window.addEventListener('scroll', () => {
+  reveals.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if(top < window.innerHeight - 100) el.classList.add('active');
+  })
+})
+</script>
+</body>
+</html>
